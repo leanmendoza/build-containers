@@ -1,13 +1,11 @@
 #!/bin/bash
 set -e
+podman=`which podman || true`
 
-# podman=`which podman || true`
-podman=`podman`
-
-# if [ -z $podman ]; then
-#   echo "podman needs to be in PATH for this script to work."
-#   exit 1
-# fi
+if [ -z $podman ]; then
+  echo "podman needs to be in PATH for this script to work."
+  exit 1
+fi
 
 if [ -z "$1" -o -z "$2" ]; then
   echo "Usage: $0 <godot branch> <mono version> [<mono branch> <mono commit hash>]"
