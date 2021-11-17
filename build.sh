@@ -60,14 +60,14 @@ if [ -e ${mono_root} ]; then
 fi
 echo "Mono source folder: ${mono_root} ${mono_exists}"
 echo
-while true; do
-  read -p "Is this correct? [y/n] " yn
-  case $yn in
-    [Yy]* ) break;;
-    [Nn]* ) exit 1;;
-    * ) echo "Please answer yes or no.";;
-  esac
-done
+# while true; do
+#   read -p "Is this correct? [y/n] " yn
+#   case $yn in
+#     [Yy]* ) break;;
+#     [Nn]* ) exit 1;;
+#     * ) echo "Please answer yes or no.";;
+#   esac
+# done
 
 mkdir -p logs
 
