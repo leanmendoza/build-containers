@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    runs-on: fedora:34
+    runs-on: fedora
     steps:
       -
         name: Checkout
