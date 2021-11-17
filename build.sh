@@ -98,7 +98,7 @@ mkdir -p logs
 # fi
 
 # You can add --no-cache  as an option to podman_build below to rebuild all containers from scratch
-export podman_build="$podman build --build-arg img_version=${img_version}"
+export podman_build="$podman build --log-level=debug --build-arg img_version=${img_version}"
 # export podman_build_mono="$podman_build --build-arg mono_version=${mono_version} -v ${files_root}:/root/files"
 
 echo $podman_build

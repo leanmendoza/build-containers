@@ -8,9 +8,8 @@ on:
 jobs:
   docker:
     # Containers must run in Linux based operating systems
-    runs-on: ubuntu-latest
-    # Docker Hub image that `container-job` executes in
-    container: fedora:34
+    runs-on: fcos
+    
     steps:
       -
         name: Checkout
