@@ -101,12 +101,14 @@ mkdir -p logs
 export podman_build="$podman build --build-arg img_version=${img_version}"
 # export podman_build_mono="$podman_build --build-arg mono_version=${mono_version} -v ${files_root}:/root/files"
 
-$podman build -v ${files_root}:/root/files -t godot-fedora:${img_version} -f Dockerfile.base . 2>&1 | tee logs/base.log
+echo $podman_build
+
+$podman build -v ${files_root}:/root/files -t godot-fedora:${img_version} -f Dockerfile.base . 
 #$podman_build -t godot-export:${img_version} -f Dockerfile.export . 2>&1 | tee logs/export.log
 
 #$podman_build_mono -t godot-mono:${img_version} -f Dockerfile.mono . 2>&1 | tee logs/mono.log
 #$podman_build_mono -t godot-mono-glue:${img_version} -f Dockerfile.mono-glue . 2>&1 | tee logs/mono-glue.log
-$podman_build -t godot-linux:${img_version} -f Dockerfile.linux . 2>&1 | tee logs/linux.log
+$podman_build -t godot-linux:${img_version} -f Dockerfile.linux .
 #$podman_build_mono -t godot-windows:${img_version} -f Dockerfile.windows . 2>&1 | tee logs/windows.log
 #$podman_build_mono -t godot-javascript:${img_version} -f Dockerfile.javascript . 2>&1 | tee logs/javascript.log
 #$podman_build_mono -t godot-android:${img_version} -f Dockerfile.android . 2>&1 | tee logs/android.log
