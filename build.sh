@@ -71,42 +71,42 @@ echo
 
 mkdir -p logs
 
-# Check out and patch Mono version
-if [ ! -e ${mono_root} ]; then
-  if [ ! -z "${mono_commit}" ]; then
-    # If a commit is specified, get the full history
-    git clone -b ${mono_version} --single-branch --progress https://github.com/mono/mono ${mono_root}
-    pushd ${mono_root}
-    git checkout ${mono_commit}
-  else
-    # Otherwise, get a shallow repo
-    git clone -b ${mono_version} --single-branch --progress --depth 1 https://github.com/mono/mono ${mono_root}
-    pushd ${mono_root}
-  fi
-  # Download all submodules, up to 6 at a time
-  git submodule update --init --recursive --recommend-shallow -j 6 --progress
-  # Set up godot-mono-builds in tree
-  git clone --progress https://github.com/godotengine/godot-mono-builds
-  pushd godot-mono-builds
-  git checkout 0d72e71a50f2b76f10cd348a3bbb6ed81209b5e4
-  export MONO_SOURCE_ROOT=${mono_root}
-  # Fix https://github.com/godotengine/build-containers/issues/95
-  git revert --no-commit f63f4e2e440197048646094b9d62a9f80eb88b0b
-  python3 patch_mono.py
-  popd
-  popd
-fi
+# # Check out and patch Mono version
+# if [ ! -e ${mono_root} ]; then
+#   if [ ! -z "${mono_commit}" ]; then
+#     # If a commit is specified, get the full history
+#     git clone -b ${mono_version} --single-branch --progress https://github.com/mono/mono ${mono_root}
+#     pushd ${mono_root}
+#     git checkout ${mono_commit}
+#   else
+#     # Otherwise, get a shallow repo
+#     git clone -b ${mono_version} --single-branch --progress --depth 1 https://github.com/mono/mono ${mono_root}
+#     pushd ${mono_root}
+#   fi
+#   # Download all submodules, up to 6 at a time
+#   git submodule update --init --recursive --recommend-shallow -j 6 --progress
+#   # Set up godot-mono-builds in tree
+#   git clone --progress https://github.com/godotengine/godot-mono-builds
+#   pushd godot-mono-builds
+#   git checkout 0d72e71a50f2b76f10cd348a3bbb6ed81209b5e4
+#   export MONO_SOURCE_ROOT=${mono_root}
+#   # Fix https://github.com/godotengine/build-containers/issues/95
+#   git revert --no-commit f63f4e2e440197048646094b9d62a9f80eb88b0b
+#   python3 patch_mono.py
+#   popd
+#   popd
+# fi
 
 # You can add --no-cache  as an option to podman_build below to rebuild all containers from scratch
 export podman_build="$podman build --build-arg img_version=${img_version}"
-export podman_build_mono="$podman_build --build-arg mono_version=${mono_version} -v ${files_root}:/root/files"
+# export podman_build_mono="$podman_build --build-arg mono_version=${mono_version} -v ${files_root}:/root/files"
 
 $podman build -v ${files_root}:/root/files -t godot-fedora:${img_version} -f Dockerfile.base . 2>&1 | tee logs/base.log
 #$podman_build -t godot-export:${img_version} -f Dockerfile.export . 2>&1 | tee logs/export.log
 
 #$podman_build_mono -t godot-mono:${img_version} -f Dockerfile.mono . 2>&1 | tee logs/mono.log
 #$podman_build_mono -t godot-mono-glue:${img_version} -f Dockerfile.mono-glue . 2>&1 | tee logs/mono-glue.log
-$podman_build_mono -t godot-linux:${img_version} -f Dockerfile.linux . 2>&1 | tee logs/linux.log
+$podman_build -t godot-linux:${img_version} -f Dockerfile.linux . 2>&1 | tee logs/linux.log
 #$podman_build_mono -t godot-windows:${img_version} -f Dockerfile.windows . 2>&1 | tee logs/windows.log
 #$podman_build_mono -t godot-javascript:${img_version} -f Dockerfile.javascript . 2>&1 | tee logs/javascript.log
 #$podman_build_mono -t godot-android:${img_version} -f Dockerfile.android . 2>&1 | tee logs/android.log
