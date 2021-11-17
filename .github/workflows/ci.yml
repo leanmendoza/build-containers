@@ -20,4 +20,4 @@ jobs:
         run: sudo dnf -y install podman
       -
         name: Build linux 
-        run: ./build.sh 
+        run: ./build.sh 3.x mono-6.12.0.147
